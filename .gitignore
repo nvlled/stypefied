@@ -1,0 +1,6 @@
+**/*.swp
+**/*.swo
+dist/
+es-src/
+resources/
+node_modules/

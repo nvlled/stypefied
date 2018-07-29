@@ -1,0 +1,35 @@
+{
+  "name": "rolldown",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "watch-tsc": "tsc -w",
+    "watch-roll": "rollup -c -w",
+    "watch-babel": "babel es-src -d dist -w",
+    "watch": "concurrently npm:watch-tsc npm:watch-roll npm:watch-babel",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "server": "tsc && rollup -c && babel es-src -d dist && node dist/server",
+    "clean": "rm -rf resources/ es-src/ dist/ && echo 'its clean again'"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@types/callsite": "^1.0.30",
+    "@types/express": "^4.16.0",
+    "@types/jquery": "^3.3.4",
+    "callsite": "^1.0.0",
+    "express": "^4.16.3",
+    "fast-glob": "^2.2.2",
+    "html-formatter": "^0.1.9",
+    "jquery": "^3.3.1",
+    "sanitize-html": "^1.18.2",
+    "typed-html": "^0.6.0",
+    "typestyle": "^2.0.1"
+  },
+  "devDependencies": {
+    "babel-preset-env": "^1.7.0",
+    "concurrently": "^3.6.1",
+    "rollup-plugin-node-resolve": "^3.3.0"
+  }
+}
