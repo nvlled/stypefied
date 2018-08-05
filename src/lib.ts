@@ -62,6 +62,16 @@ export const settings = {
     },
 }
 
+export const defaults = {
+    DBTYPE: "sqlite",
+    DBNAME: "data.db",
+    DBHOST: "localhost",
+    DBPORT: "3303",
+    DBUSER: "root",
+    DBPASS: "",
+}
+
+
 // removePathPrefix("/a/b/c", "/a") == "/b/c"
 // removePathPrefix("/a/b/c", "/a/") == "/b/c"
 // removePathPrefix("/a/b/c", "/a/b") == "/c"

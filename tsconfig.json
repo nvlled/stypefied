@@ -10,7 +10,9 @@
         "outDir": "es-src",
         "baseUrl": ".",
         "jsx": "react",
-        "jsxFactory": "elements.createElement"
+        "jsxFactory": "elements.createElement",
+        "emitDecoratorMetadata": true,
+        "experimentalDecorators": true
     },
     "include": [
         "src/**/*"
