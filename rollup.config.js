@@ -31,6 +31,7 @@ let config = findClientScripts().map(function(fullpath) {
         scriptPath = dirname(scriptPath);
         filename = basename(dirname(fullpath)) + ".js";
     }
+    filename = filename.replace(/\.client\.js$/, ".js");
 
     if (destFilenames[filename]) {
         console.warn(filename + " will be overwritten");
