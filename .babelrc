@@ -1,2 +1,4 @@
 
-{ "presets": ["env"] }
+{
+    "presets": ["env"],
+}

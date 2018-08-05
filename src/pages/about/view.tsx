@@ -26,4 +26,3 @@ export default function f(args: Args): string {
     </div>;
     return layout.render();
 }
-

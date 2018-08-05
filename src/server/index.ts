@@ -7,6 +7,7 @@ import DefaultLayout from "../views/layout";
 import home from "../views/home";
 import {settings} from "../lib";
 import * as path from "path";
+import bodyParser from "body-parser";
 
 const server = express();
 
@@ -24,8 +25,10 @@ server.get("/", (req: express.Request, res: express.Response) => {
     }));
 });
 
- import about from "../pages/about";
+import about from "../pages/about";
+import router from "../pages/login";
 server.use("/about", about);
+server.use("/login", router);
 
 const port = 7000;
 server.listen(port, () => {
