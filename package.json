@@ -5,13 +5,13 @@
   "main": "index.js",
   "scripts": {
     "babel": "babel es-src -d dist",
-    "watch-tsc": "tsc -w",
+    "watch-tsc": "tsc -w --preserveWatchOutput",
     "watch-roll": "rollup -c -w",
     "watch-babel": "babel es-src -d dist -w",
     "watch": "concurrently npm:watch-tsc npm:watch-roll npm:watch-babel",
+    "watch-server": "node-dev --notify=false dist/server",
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "tsc && rollup -c && npm run babel",
-    "server": "npm run build && node dist/server",
     "clean": "rm -rf resources/ es-src/ dist/ && echo 'its clean again'"
   },
   "author": "",
