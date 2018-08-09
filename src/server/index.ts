@@ -1,21 +1,17 @@
 
 import express from "express";
-import * as elements from 'typed-html';
-import DefaultLayout from "../views/layout";
 import {settings, defaults} from "../lib";
 import * as path from "path";
-import bodyParser from "body-parser";
-import cookieSession from "cookie-session";
 import {config as dotenvConfig} from "dotenv";
 import {env} from "process";
 
-dotenvConfig();
 const {resourceDir, staticDir} = settings.fs;
 const server = express();
 const port = 7000;
 
+dotenvConfig();
 server.use(require('request-local/middleware').create());
-server.use(cookieSession({
+server.use(require("cookie-session")({
     name: env.SESSION_NAME || defaults.SESSION_NAME,
     keys: [env.SESSION_KEY || defaults.SESSION_KEY],
 }));
@@ -24,8 +20,8 @@ server.use((req, res, next) => {
     next();
 });
 
-server.use(path.join("/", path.basename(staticDir)), express.static(staticDir));
-server.use(path.join("/", path.basename(resourceDir)), express.static(resourceDir));
+server.use(path.join("/", path.basename(staticDir)),    express.static(staticDir));
+server.use(path.join("/", path.basename(resourceDir)),  express.static(resourceDir));
 
 import about from "../pages/about";
 import login from "../pages/login";
@@ -36,5 +32,5 @@ server.use("/login", login);
 
 server.listen(port, () => {
     console.log(`server listening at ${port}`);
-
 });
+
