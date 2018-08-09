@@ -20,9 +20,20 @@ export const createRouter = () => express.Router();
 export const createBodyParser = () => bodyParser.urlencoded({ extended: false });
 
 export const context = {
+    require() {
+        try {
+            return require("request-local").data;
+        } catch (e) {
+            console.warn("unable to load request-local");
+            return {};
+        }
+    },
     currentUsername() {
-        let local = require("request-local").data;
-        return local.request.session.username;
+        let local = this.require();
+        let session = local.request;
+        if (session)
+            return session.username;
+        return "";
     },
 }
 
