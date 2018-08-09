@@ -7,6 +7,7 @@ import {
     includePageScript,
     includePageStyle,
     util,
+    context,
 } from "../lib";
 const formatter = require("html-formatter");
 
@@ -27,6 +28,10 @@ export default class DefaultLayout implements Types.Layout {
     }
 
     render(username: string = ""): string {
+        if (!username) {
+            username = context.currentUsername();
+        }
+
         return formatter.render(<html>
             <head>
                 <title>{this.title + " " + settings.sitename}</title>

@@ -15,10 +15,15 @@ const {resourceDir, staticDir} = settings.fs;
 const server = express();
 const port = 7000;
 
+server.use(require('request-local/middleware').create());
 server.use(cookieSession({
     name: env.SESSION_NAME || defaults.SESSION_NAME,
     keys: [env.SESSION_KEY || defaults.SESSION_KEY],
 }));
+server.use((req, res, next) => {
+    require('request-local').data.foo = 'bar';
+    next();
+});
 
 server.use(path.join("/", path.basename(staticDir)), express.static(staticDir));
 server.use(path.join("/", path.basename(resourceDir)), express.static(resourceDir));

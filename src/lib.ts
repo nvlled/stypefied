@@ -8,6 +8,13 @@ export * from "./lib/types";
 export * from "./lib/settings";
 export {util};
 
+export const context = {
+    currentUsername() {
+        let local = require("request-local").data;
+        return local.request.session.username;
+    },
+}
+
 export const defaults = {
     DB_TYPE: "sqlite",
     DB_NAME: "data.db",
