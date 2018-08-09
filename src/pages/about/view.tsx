@@ -1,21 +1,21 @@
 
-import {createTypeStyle} from "typestyle";
-import * as elements from 'typed-html';
-import {allowStr, filterStr, SafeStr} from '../../safestr';
 import {
+    elements,
+    createTypeStyle,
     includePageStyle,
     includePageScript,
+    layouts,
+    SafeStr,
     Types,
 } from "../../lib";
-import DefaultLayout from "../../views/layout";
 
 export interface Args {
     username: SafeStr,
-    layout?: DefaultLayout,
+    layout?: layouts.DefaultLayout,
 }
 
 export default function f(args: Args): string {
-    let layout = args.layout || new DefaultLayout();
+    let layout = args.layout || new layouts.DefaultLayout();
     layout.title = "About";
 
     const ts = createTypeStyle();

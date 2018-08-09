@@ -1,7 +1,6 @@
 
 import express from "express";
 import * as elements from 'typed-html';
-import {allowStr, filterStr, SafeStr} from '../safestr';
 import DefaultLayout from "../views/layout";
 import {settings, defaults} from "../lib";
 import * as path from "path";

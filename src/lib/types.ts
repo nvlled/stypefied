@@ -1,6 +1,6 @@
 
 import express from "express";
-import {allowStr, filterStr, SafeStr} from '../safestr';
+import {allowStr, filterStr, SafeStr} from '../lib';
 
 export namespace Types {
     export type Request  = express.Request & { session: {[key: string]: string} };

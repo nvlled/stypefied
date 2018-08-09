@@ -1,9 +1,12 @@
 
-import express from "express";
 import view from "../views/home";
-import {Types} from "../lib";
-import {allowStr, filterStr, SafeStr} from '../safestr';
-const router = express.Router();
+import {
+    createRouter,
+    allowStr,
+    Types,
+} from "../lib";
+
+const router = createRouter();
 
 router.get("/", (request: Types.Request, response: Types.Response) => {
     response.send(view({

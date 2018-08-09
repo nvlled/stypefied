@@ -1,20 +1,21 @@
 
-import express from "express";
-import {createTypeStyle} from "typestyle";
-import * as elements from 'typed-html';
 import {
+    elements,
+    createTypeStyle,
+    createRouter,
+    createBodyParser,
     includePageStyle,
     includePageScript,
+    escape,
+    allowStr,
+    SafeStr,
+    layouts,
     Types,
 } from "../lib";
 
-import DefaultLayout from "../views/layout";
-import {escape, allowStr, filterStr, SafeStr} from '../safestr';
-import bodyParser from "body-parser";
-
 export interface Args {
     username: SafeStr,
-    layout?: DefaultLayout,
+    layout?: layouts.DefaultLayout,
     formMsg?: SafeStr,
     errors: {
         username?: SafeStr,
@@ -26,7 +27,7 @@ export interface Args {
 export function view(args: Args): string {
     const ts = createTypeStyle();
     const className = ts.style({color: 'red'});
-    let layout = args.layout || new DefaultLayout();
+    let layout = args.layout || new layouts.DefaultLayout();
     let errors = args.errors || {};
 
 
@@ -48,7 +49,7 @@ export function view(args: Args): string {
     return layout.render();
 }
 
-const router = express.Router();
+const router = createRouter();
 
 router.get("/", (request: Types.Request, response: Types.Response) => {
     response.send(view({
@@ -57,8 +58,7 @@ router.get("/", (request: Types.Request, response: Types.Response) => {
     }));
 });
 
-let urlencodedParser = bodyParser.urlencoded({ extended: false })
-router.post("/", urlencodedParser, (request: Types.Request, response: Types.Response) => {
+router.post("/", createBodyParser(), (request: Types.Request, response: Types.Response) => {
     let {username, password} = request.body;
     console.log("user pass: ", username, password);
 

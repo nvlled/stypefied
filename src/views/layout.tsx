@@ -1,17 +1,17 @@
 
-import * as elements from 'typed-html';
-import {allowStr, filterStr, SafeStr} from '../safestr';
 import {
+    elements,
     Types,
     settings,
     includePageScript,
     includePageStyle,
+    SafeStr,
     util,
     context,
 } from "../lib";
 const formatter = require("html-formatter");
 
-export default class DefaultLayout implements Types.Layout {
+export class DefaultLayout implements Types.Layout {
     notices:  SafeStr[] = [];
     errors:   SafeStr[] = [];
     styles:   string[] = [];
@@ -61,3 +61,5 @@ export default class DefaultLayout implements Types.Layout {
         </html>)
     }
 }
+
+export default DefaultLayout;
