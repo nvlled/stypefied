@@ -14,6 +14,16 @@ export class SafeStr {
     }
 }
 
+export function escape(strs: TemplateStringsArray, ...values: string[]): SafeStr {
+    let result = "";
+    for (let i = 0; i < values.length; i++) {
+        result += strs[i];
+        result += sanitizeHtml(values[i]);
+    }
+    result += strs[strs.length-1];
+    return new SafeStr(result);
+}
+
 export function allowStr(str: string): SafeStr {
     return new SafeStr(str);
 }
