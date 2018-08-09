@@ -14,7 +14,7 @@ import bodyParser from "body-parser";
 export interface Args {
     username: SafeStr,
     layout?: DefaultLayout,
-    info?: SafeStr,
+    formMsg?: SafeStr,
     errors: {
         username?: SafeStr,
         password?: SafeStr,
@@ -39,9 +39,9 @@ export function view(args: Args): string {
         <style>{ts.getStyles()}</style>
     </div>;
 
+    if (args.formMsg)
+        layout.notices.push(args.formMsg);
 
-    if (args.info)
-        layout.notices.push(args.info);
     layout.title = "login";
     layout.body = body;
     return layout.render();
@@ -66,17 +66,16 @@ router.post("/", urlencodedParser, (req: express.Request, res: express.Response)
         errors: {},
     }
 
-
     if (username != "admin" && password != "pass") {
         viewData.errors = {
             form: escape`invalid username or password`,
         }
     } else {
-        viewData.info = allowStr("login successful");
+        viewData.formMsg = allowStr("login successful");
+        request.session.username = username;
     }
 
-    res.send(view(viewData));
+    response.send(view(viewData));
 });
 
 export default router;
-
