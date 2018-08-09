@@ -8,7 +8,7 @@ import {
     SafeStr,
     util,
     context,
-} from "../lib";
+} from "../../lib";
 const formatter = require("html-formatter");
 
 export class DefaultLayout implements Types.Layout {

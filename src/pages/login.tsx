@@ -9,9 +9,9 @@ import {
     escape,
     allowStr,
     SafeStr,
-    layouts,
     Types,
 } from "../lib";
+import * as layouts from "../views/layouts";
 
 export interface Args {
     username: SafeStr,

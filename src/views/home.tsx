@@ -6,9 +6,9 @@ import {
     includePageScript,
     allowStr,
     SafeStr,
-    layouts,
     Types,
 } from "../lib";
+import * as layouts from "./layouts";
 
 export interface Args {
     username: SafeStr,

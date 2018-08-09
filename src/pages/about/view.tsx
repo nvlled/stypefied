@@ -4,10 +4,10 @@ import {
     createTypeStyle,
     includePageStyle,
     includePageScript,
-    layouts,
     SafeStr,
     Types,
 } from "../../lib";
+import * as layouts from "../../views/layouts";
 
 export interface Args {
     username: SafeStr,

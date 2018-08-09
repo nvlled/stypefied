@@ -5,14 +5,12 @@ import * as util from "./lib/util";
 import express from "express";
 import bodyParser from "body-parser";
 import {escape, allowStr, filterStr, SafeStr} from './lib/safestr';
-import * as layouts from "./views/layout";
 import * as elements from 'typed-html';
 
 export * from "./lib/types";
 export * from "./lib/settings";
 export * from './lib/safestr';
 export {util};
-export {layouts};
 export {elements};
 export {createTypeStyle} from "typestyle";
 
