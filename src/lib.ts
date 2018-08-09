@@ -1,89 +1,12 @@
 
-import 'jquery';
 import * as path from "path";
 import {allowStr, filterStr, SafeStr} from './safestr';
+import {settings} from "./lib/settings";
+import * as util from "./lib/util";
 
-const callsite = require("callsite");
-const resourcePath = "resources";
-const staticPath = "static";
-const resourceDir = path.join(__dirname, "..", resourcePath);
-const staticDir = path.join(__dirname, "..", staticPath);
-const srcDir = path.join(__dirname, "..", "src");
-
-export const settings = {
-    sitename: "Typed CRUD",
-
-    resourcePath,
-    staticPath,
-
-    staticURL: {
-        styles:  path.join("/", staticPath, "styles"),
-        scripts: path.join("/", resourcePath, "scripts"),
-        withScript(name: string) {
-            if (path.isAbsolute(name))
-                return name;
-            return path.join(this.scripts, name);
-        },
-        withStyle(name: string)  {
-            if (path.isAbsolute(name))
-                return name;
-            return path.join(this.styles, name);
-        },
-    },
-
-    resourceURL: {
-        styles:  path.join("/", resourcePath, "styles"),
-        scripts: path.join("/", resourcePath, "scripts"),
-        withScript(name: string) {
-            if (path.isAbsolute(name))
-                return name;
-            return path.join(this.scripts, name);
-        },
-        withStyle(name: string)  {
-            if (path.isAbsolute(name))
-                return name;
-            return path.join(this.styles, name);
-        },
-    },
-
-    fs: {
-        staticDir,
-        resourceDir,
-        stylesDir: path.join(resourceDir, "styles"),
-        scriptsDir: path.join(resourceDir, "scripts"),
-
-
-        withStaticDir(filename="") {
-            return path.join(this.scriptsDir, filename);
-        },
-        withStylesDir(filename="") {
-            return path.join(this.stylesDir, filename);
-        },
-    },
-}
-
-// removePathPrefix("/a/b/c", "/a") == "/b/c"
-// removePathPrefix("/a/b/c", "/a/") == "/b/c"
-// removePathPrefix("/a/b/c", "/a/b") == "/c"
-// removePathPrefix("/a/b", "/a/b") == "/"
-// removePathPrefix("a/b", "a/b") == "."
-// removePathPrefix("/a/b", "/a/b/c") == "/a/b"
-export function removePathPrefix(str: string, prefix: string) {
-    let sep = path.sep;
-    let prefs = prefix.split(sep);
-    let strs = str.split(sep);
-
-    if (prefs.length > strs.length)
-        return str;
-
-    let i = 0;
-    while (i < prefs.length) {
-        if (prefs[i] != strs[i])
-            break;
-        i++;
-    }
-    return path.join( ...strs.slice(i, strs.length));
-}
+export * from "./lib/types";
+export * from "./lib/settings";
+export {util};
 
 export const defaults = {
     DB_TYPE: "sqlite",
@@ -105,7 +28,7 @@ export function includePageAsset(
     destpath: string
 ): string {
     let {join, basename, dirname, format} = path;
-    let scriptPath = removePathPrefix(
+    let scriptPath = util.removePathPrefix(
         dirname(filename),
         __dirname,
     );
@@ -126,6 +49,7 @@ export function includePageAsset(
     return src;
 }
 
+const callsite = require("callsite");
 export function includePageScript(level=1): string {
     let moduleName = callsite()[level].getFileName();
     return includePageAsset(moduleName, ".js", settings.resourceURL.scripts);
@@ -134,18 +58,6 @@ export function includePageScript(level=1): string {
 export function includePageStyle(level=1): string {
     let moduleName = callsite()[level].getFileName();
     return includePageAsset(moduleName, ".css", settings.resourceURL.styles);
-}
-
-export interface Layout {
-    notices: SafeStr[],
-    errors:  SafeStr[],
-    styles:  string[],
-    scripts:  string[],
-    title:   string,
-    body:    string,
-    aside:   string,
-
-   render(): string,
 }
 
 console.log("settings:", settings);

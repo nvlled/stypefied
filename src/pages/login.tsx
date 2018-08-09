@@ -5,6 +5,7 @@ import * as elements from 'typed-html';
 import {
     includePageStyle,
     includePageScript,
+    Types,
 } from "../lib";
 
 import DefaultLayout from "../views/layout";
@@ -49,16 +50,16 @@ export function view(args: Args): string {
 
 const router = express.Router();
 
-router.get("/", (req: express.Request, res: express.Response) => {
-    res.send(view({
+router.get("/", (request: Types.Request, response: Types.Response) => {
+    response.send(view({
         username: allowStr("aaa"),
         errors: {},
     }));
 });
 
 let urlencodedParser = bodyParser.urlencoded({ extended: false })
-router.post("/", urlencodedParser, (req: express.Request, res: express.Response) => {
-    let {username, password} = req.body;
+router.post("/", urlencodedParser, (request: Types.Request, response: Types.Response) => {
+    let {username, password} = request.body;
     console.log("user pass: ", username, password);
 
     let viewData: Args = {

@@ -5,6 +5,7 @@ import {allowStr, filterStr, SafeStr} from '../../safestr';
 import {
     includePageStyle,
     includePageScript,
+    Types,
 } from "../../lib";
 import DefaultLayout from "../../views/layout";
 

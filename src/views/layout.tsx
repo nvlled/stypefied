@@ -2,14 +2,15 @@
 import * as elements from 'typed-html';
 import {allowStr, filterStr, SafeStr} from '../safestr';
 import {
-    Layout,
+    Types,
     settings,
     includePageScript,
     includePageStyle,
+    util,
 } from "../lib";
 const formatter = require("html-formatter");
 
-export default class DefaultLayout implements Layout {
+export default class DefaultLayout implements Types.Layout {
     notices:  SafeStr[] = [];
     errors:   SafeStr[] = [];
     styles:   string[] = [];
@@ -25,7 +26,7 @@ export default class DefaultLayout implements Layout {
         }
     }
 
-    render(): string {
+    render(username: string = ""): string {
         return formatter.render(<html>
             <head>
                 <title>{this.title + " " + settings.sitename}</title>
@@ -35,6 +36,9 @@ export default class DefaultLayout implements Layout {
                 })}
             </head>
             <body>
+                {util.when(!!username, () => {
+                    return <em>greetings {username}</em>
+                })}
                 {this.notices.map(msg =>
                     <div class="notice">
                     ♫ <span>{msg}</span>

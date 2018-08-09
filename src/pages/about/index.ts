@@ -2,10 +2,11 @@
 import express from "express";
 import view from "./view";
 import {allowStr, filterStr, SafeStr} from '../../safestr';
+import {Types} from "../../lib";
 const router = express.Router();
 
-router.get("/", (req: express.Request, res: express.Response) => {
-    res.send(view({
+router.get("/", (request: Types.Request, response: Types.Response) => {
+    response.send(view({
         username: allowStr("aaa"),
     }));
 });
