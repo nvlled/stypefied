@@ -14,13 +14,13 @@ dotenvConfig();
 const configs: { [key: string] : typeorm.ConnectionOptions } = {
     sqlite: {
         type: "sqlite",
-        database: joinPath(__dirname, env.DBNAME || defaults.DBNAME),
+        database: joinPath(__dirname, env.DB_NAME || defaults.DB_NAME),
     },
     mysql: {
         type:     "mysql",
-        host:     env.DBHOST || defaults.DBHOST,
-        username: env.DBUSER || defaults.DBUSER,
-        password: env.DBPASS || defaults.DBPASS,
+        host:     env.DB_HOST || defaults.DB_HOST,
+        username: env.DB_USER || defaults.DB_USER,
+        password: env.DB_PASS || defaults.DB_PASS,
     },
 }
 
@@ -31,7 +31,7 @@ interface connect_args {
     logging?:     boolean,
 }
 export function connect(args: connect_args = {}): Promise<typeorm.Connection> {
-    let {type=defaults.DBTYPE, logging=false, synchronize=true} = args || {};
+    let {type=defaults.DB_TYPE, logging=false, synchronize=true} = args || {};
     let entities = [ User ];
     let config = configs[type];
 

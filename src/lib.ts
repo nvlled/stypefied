@@ -62,16 +62,6 @@ export const settings = {
     },
 }
 
-export const defaults = {
-    DBTYPE: "sqlite",
-    DBNAME: "data.db",
-    DBHOST: "localhost",
-    DBPORT: "3303",
-    DBUSER: "root",
-    DBPASS: "",
-}
-
-
 // removePathPrefix("/a/b/c", "/a") == "/b/c"
 // removePathPrefix("/a/b/c", "/a/") == "/b/c"
 // removePathPrefix("/a/b/c", "/a/b") == "/c"
@@ -93,6 +83,18 @@ export function removePathPrefix(str: string, prefix: string) {
         i++;
     }
     return path.join( ...strs.slice(i, strs.length));
+}
+
+export const defaults = {
+    DB_TYPE: "sqlite",
+    DB_NAME: "data.db",
+    DB_HOST: "localhost",
+    DB_PORT: "3303",
+    DB_USER: "root",
+    DB_PASS: "",
+
+    SESSION_NAME: "stypefied",
+    SESSION_KEY: "yourkeyhere",
 }
 
 // To avoid future bewilderment, I should
