@@ -29,7 +29,7 @@ server.use(path.join("/", path.basename(resourceDir)), express.static(resourceDi
 
 import about from "../pages/about";
 import login from "../pages/login";
-import home  from "../routes/home";
+import home  from "./home";
 server.use("/",      home);
 server.use("/about", about);
 server.use("/login", login);
