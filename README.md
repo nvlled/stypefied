@@ -1,5 +1,69 @@
 # stypefied
 a fullstack web framework in typescript
 
-## Status
-Nothing's working yet
+Well, it's not much of a framework now. It's more like a opinionated project template for fullstack web development with typescript. All server and client code, including css and html, can be written in typescript/tsx.
+
+## Getting started
+1. Clone or download this repository (sitename replace with your preferred name)
+```
+git clone git@github.com:nvlled/stypefied.git sitename
+```
+2. Install dependencies
+```
+npm install
+```
+3. Build
+```
+npm run build
+```
+4. Watch and edit
+```
+npm run watch
+```
+
+## Structure and organization
+The Project is flexible enough to support different code organization, such as the traditional MVC (1) or razor-like structure (2) (3).
+```
+src/
+├── models
+│   ├── index.ts
+│   └── user.ts
+├── client
+│   ├── home.ts (1)
+│   └── main.ts
+├── models
+│   ├── index.ts
+│   └── user.ts
+├── pages
+│   ├── about
+│   │   ├── client.ts (2)
+│   │   ├── index.ts  (2)
+│   │   └── view.tsx  (2)
+│   ├── login.client.ts (3)
+│   └── login.tsx       (3)
+├── server
+│   ├── home.ts (1)
+│   └── index.ts
+└── views
+    ├── home.tsx (1)
+    └── layouts
+        ├── default.tsx
+        └── index.tsx
+
+```
+
+(1) The files for the home page is scattered in different directories, which is how most MVC are structured. The controller (or router) code is placed in the server directory, the view code in the views directory, and the client code in the client directory.
+
+(2) The files for the about page is placed in a single directory, in accordance to razor pages. index.ts contains the controller code, and the view.tsx and client.tsx contains the view and client code respectively.
+
+(3) This is the with (2), but with the controller and view code combined in one file.
+
+Of course, the organization isn't strictly imposed, the files can be placed in any directory. These are just guidance to keep things clean and organized, but can be freely violated when flexibility and special cases are needed.
+
+## Issues
+- _It's 2018, where's react, vue, and everything nice?!?_ Well, I mainly started this project so I could do web development the more tradional way: the multi-paged, server-side rendered websites, not the current trend of Single-Page Apps (SPA). I don't have an solid opinion on which is approach better, I'm just more used to the former and haven't been fully evangelized with the latter.
+
+- typed-html, although safe from type errors, is quite prone to xss. Values must be manually sanitized, which is a lot like vanilla php. Not really much of a problem, typed-html could easily be replaced with other templating librariess.
+
+- The build pipeline is a bit of a mess, which consist of tsc, rollup, and then babel. I'm thinking of just using tsc and systemjs.
+
