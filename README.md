@@ -1,7 +1,7 @@
 # stypefied
 a fullstack web framework in typescript
 
-Well, it's not much of a framework now. It's more like a opinionated project template for fullstack web development with typescript. All server and client code, including css and html, can be written in typescript/tsx.
+Well, it's not much of a framework now. It's more like an opinionated project template for fullstack web development with typescript. All server and client code, including css and html, can be written in typescript/tsx.
 
 ## Getting started
 1. Clone or download this repository (sitename replace with your preferred name)
@@ -52,11 +52,11 @@ src/
 
 ```
 
-(1) The files for the home page is scattered in different directories, which is how most MVC are structured. The controller (or router) code is placed in the server directory, the view code in the views directory, and the client code in the client directory.
+(1) The files for the home page are scattered in different directories, which is how most MVC are structured. The controller (or router) code is placed in the server directory, the view code in the views directory, and the client code in the client directory.
 
-(2) The files for the about page is placed in a single directory, in accordance to razor pages. index.ts contains the controller code, and the view.tsx and client.tsx contains the view and client code respectively.
+(2) The files for the about page are placed in a single directory, in accordance to razor pages. index.ts contains the controller code, and the view.tsx and client.tsx contains the view and client code respectively.
 
-(3) This is the with (2), but with the controller and view code combined in one file.
+(3) This is the same with (2), but with the controller and view code combined in one file.
 
 Of course, the organization isn't strictly imposed, the files can be placed in any directory. These are just guidance to keep things clean and organized, but can be freely violated when flexibility and special cases are needed.
 
