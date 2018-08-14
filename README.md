@@ -16,10 +16,11 @@ npm install
 ```
 npm run build
 ```
-4. Watch and edit
+4. Start build pipeline and server
 ```
 npm run watch
 ```
+5. Open http://localhost:7000, make your changes, etc.
 
 ## Structure and organization
 The Project is flexible enough to support different code organization, such as the traditional MVC (1) or razor-like structure (2) (3).
@@ -60,10 +61,14 @@ src/
 
 Of course, the organization isn't strictly imposed, the files can be placed in any directory. These are just guidance to keep things clean and organized, but can be freely violated when flexibility and special cases are needed.
 
-## Issues
-- _It's 2018, where's react, vue, and everything nice?!?_ Well, I mainly started this project so I could do web development the more tradional way: the multi-paged, server-side rendered websites, not the current trend of Single-Page Apps (SPA). I don't have an solid opinion on which is approach better, I'm just more used to the former and haven't been fully evangelized with the latter.
+## Adding pages
+I don't have scaffolding scripts yet, so for now just use the login or about page for reference.
+Or more simply, copy the file login.tsx to user.tsx, then edit the contents of user.tsx. That's it!
 
-- typed-html, although safe from type errors, is quite prone to xss. Values must be manually sanitized, which is a lot like vanilla php. Not really much of a problem, typed-html could easily be replaced with other templating librariess.
+## Issues
+- _It's 2018, where's react, vue, and everything nice?!?_ Well, I mainly started this project so I could do web development the more traditional way: the multi-paged, server-side rendered websites, not the current trend of Single-Page Apps (SPA). I don't have an opinion on which is approach better, I'm just more accustomed to the former and haven't been fully evangelized with the latter.
+
+- typed-html, although safe from type errors, is quite prone to xss. Values must be manually sanitized, which is a lot like vanilla php. Not really much of a problem, typed-html could easily be replaced with other templating libraries.
 
 - The build pipeline is a bit of a mess, which consist of tsc, rollup, and then babel. I'm thinking of just using tsc and systemjs.
 
