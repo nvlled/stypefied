@@ -28,7 +28,7 @@ export const context = {
     },
     currentUsername() {
         let local = this.require();
-        let session = local.request;
+        let {session} = local.request;
         if (session)
             return session.username;
         return "";
@@ -84,7 +84,5 @@ export function includePageScript(level=1): string {
 
 export function includePageStyle(level=1): string {
     let moduleName = callsite()[level].getFileName();
-    return includePageAsset(moduleName, ".css", settings.resourceURL.styles);
+    return includePageAsset(moduleName, ".css", settings.staticURL.styles);
 }
-
-console.log("settings:", settings);
