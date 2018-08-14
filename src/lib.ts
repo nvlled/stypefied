@@ -34,6 +34,13 @@ export const context = {
             return session.username;
         return "";
     },
+    flashMessages(name: string = "info"): string[] {
+        let local = this.require();
+        if (local.request) {
+            return local.request.flash(name);
+        }
+        return [];
+    },
 }
 
 export const defaults = {

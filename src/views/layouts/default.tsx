@@ -1,5 +1,6 @@
 
 import {
+    filterStr,
     elements,
     Types,
     settings,
@@ -30,7 +31,7 @@ const stylesheet = (() => {
             ...vertical,
             $nest: {
                 a: {
-                    color: 'teal',
+                    color: '#0af',
                 },
             },
         },
@@ -126,6 +127,9 @@ export class DefaultLayout implements Types.Layout {
             username = context.currentUsername();
         }
 
+        let messages = context.flashMessages().map(filterStr);
+        let notices = this.notices.concat(messages);
+
         let currentUser = {
             username,
             karma: 0,
@@ -169,16 +173,13 @@ export class DefaultLayout implements Types.Layout {
 
                 </div>
             </div>
-
-            {/*
             <div>
-                {this.notices.map(msg =>
+                {notices.map(msg =>
                     <div class="notice">
                     ♫ <span>{msg}</span>
                     </div>
                 )}
             </div>
-            */}
         </header>;
 
         return formatter.render(<html>

@@ -60,7 +60,6 @@ router.get("/", (request: Types.Request, response: Types.Response) => {
 
 router.post("/", createBodyParser(), (request: Types.Request, response: Types.Response) => {
     let {username, password} = request.body;
-    console.log("user pass: ", username, password);
 
     let viewData: Args = {
         username: allowStr("aaa"),
@@ -74,6 +73,7 @@ router.post("/", createBodyParser(), (request: Types.Request, response: Types.Re
     } else {
         viewData.formMsg = allowStr("login successful");
         request.session.username = username;
+        request.flash('info', "Login successful");
         response.redirect("/");
     }
 

@@ -12,7 +12,8 @@
         "jsx": "react",
         "jsxFactory": "elements.createElement",
         "emitDecoratorMetadata": true,
-        "experimentalDecorators": true
+        "experimentalDecorators": true,
+        "noEmitOnError": true,
     },
     "include": [
         "src/**/*"

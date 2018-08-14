@@ -7,6 +7,7 @@ import {
 import * as path from "path";
 import {config as dotenvConfig} from "dotenv";
 import {env} from "process";
+const flash = require("connect-flash");
 
 const {resourceDir, staticDir} = settings.fs;
 const server = express();
@@ -18,7 +19,9 @@ server.use(require("cookie-session")({
     name: env.SESSION_NAME || defaults.SESSION_NAME,
     keys: [env.SESSION_KEY || defaults.SESSION_KEY],
 }));
+server.use(flash());
 server.use((req, res, next) => {
+    // example of adding data to request context
     require('request-local').data.foo = 'bar';
     next();
 });
