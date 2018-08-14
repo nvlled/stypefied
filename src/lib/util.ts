@@ -23,8 +23,10 @@ export function removePathPrefix(str: string, prefix: string) {
     return path.join( ...strs.slice(i, strs.length));
 }
 
-export function when(cond: boolean, body: () => any): any {
+export function when(cond: boolean, body: () => any, alt: () => any = null): any {
     if (cond)
         return body();
+    if (typeof alt == "function")
+        return alt();
     return null;
 }

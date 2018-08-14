@@ -8,8 +8,102 @@ import {
     SafeStr,
     util,
     context,
+    createTypeStyle,
 } from "../../lib";
 const formatter = require("html-formatter");
+import * as csstips from "csstips";
+
+// I guess one disadvantage of typestyle
+// is that I have to restart the server
+// everytime I make changes here.
+const typeStyle = createTypeStyle();
+const stylesheet = (() => {
+    let {
+        flex, fillParent,
+        horizontal, vertical,
+        centerCenter,
+    } = csstips;
+    return typeStyle.stylesheet({
+        body: {
+            backgroundColor: "#fdfdfdf",
+            ...fillParent,
+            ...vertical,
+            $nest: {
+                a: {
+                    color: 'teal',
+                },
+            },
+        },
+        aside: {
+            backgroundColor: 'rgba(50, 50, 80, 0.9)',
+            color: 'white',
+        },
+        header: {
+            backgroundColor: '#118',
+            color: '#fcfcf9',
+        },
+        siteinfo: {
+            $nest: {
+                h1: {
+                    margin: 0,
+                    padding: 0,
+                    $nest: {
+                        a: {
+                            color: "#fcfcfc",
+                            textDecoration: "none",
+                        }
+                    },
+                }
+            },
+            ...flex,
+            ...horizontal,
+        },
+        nameAndNav: {
+            ...flex,
+        },
+        userinfo: {
+            padding: "10px",
+            ...vertical,
+            ...csstips.centerCenter,
+        },
+        wrapper: {
+            ...flex,
+            ...horizontal,
+        },
+        contents: {
+            backgroundColor: '#fdfdfd',
+            ...flex,
+        },
+        footer: {
+            color: "white",
+            backgroundColor: '#118',
+        },
+        mainNav: {
+            margin: "0px",
+            padding: "0px",
+            $nest: {
+                li: {
+                    margin: "0px",
+                    padding: "0px",
+                    listStyleType: "none",
+                    display: "inline-block",
+                    $nest: {
+                       a: {
+                            color: "#ffa",
+                            textDecoration: "none",
+                        },
+                       '&:first-child': {
+                           $nest: { '&::before': { content: `''` } }
+                       },
+                       '&::before': {
+                           content: `'|'`
+                       },
+                    }
+                },
+            },
+        },
+    });
+})();
 
 export class DefaultLayout implements Types.Layout {
     notices:  SafeStr[] = [];
@@ -32,28 +126,87 @@ export class DefaultLayout implements Types.Layout {
             username = context.currentUsername();
         }
 
-        return formatter.render(<html>
-            <head>
-                <title>{this.title + " " + settings.sitename}</title>
-                <link rel="stylesheet" href={settings.staticURL.withStyle("site.css")} />
-                {this.styles.map(name => {
-                    return <link rel="stylesheet" href={settings.resourceURL.withScript(name)} />
-                })}
-            </head>
-            <body>
-                {util.when(!!username, () => {
-                    return <em>greetings {username}</em>
-                })}
+        let currentUser = {
+            username,
+            karma: 0,
+        }
+        let {staticURL, resourceURL} = settings;
+        let {withStyle} = staticURL;
+        let {withScript} = resourceURL;
+
+        let navItems = [
+            {text: "new", href: "/new"},
+            {text: "threads", href: "/threads"},
+            {text: "comments", href: "/comments"},
+            {text: "submit", href: "/submit"},
+        ];
+
+        let {when} = util;
+        let mainNav = <ul class={stylesheet.mainNav}>
+            {navItems.map(item =>
+                <li>
+                    <a href={item.href}>{item.text}</a>
+                </li>
+            )}
+        </ul>;
+
+        let header = <header id="site" class={stylesheet.header}>
+            <div class={stylesheet.siteinfo}>
+                <img src={staticURL.with("images/logo.png")} />
+                <div class={stylesheet.nameAndNav}>
+                    <h1><a href="/">{settings.sitename}</a></h1>
+                    {mainNav}
+                </div>
+                <div class={stylesheet.userinfo}>
+                    {!!username
+                      ? <div>
+                              <a href="#">{username} </a>
+                              ({currentUser.karma}) |
+                              <a href="/logout">logout</a>
+                        </div>
+                      : <div><a href="/login">login</a></div>
+                    }
+
+                </div>
+            </div>
+
+            {/*
+            <div>
                 {this.notices.map(msg =>
                     <div class="notice">
                     ♫ <span>{msg}</span>
                     </div>
                 )}
-                <h1>sitename</h1>
-                <hr />
-                <div class="wrapper">
+            </div>
+            */}
+        </header>;
+
+        return formatter.render(<html>
+            <head>
+                <title>{this.title + " " + settings.sitename}</title>
+                <link rel="stylesheet" href={settings.staticURL.withStyle("normalize.css")} />
+                <link rel="stylesheet" href={settings.staticURL.withStyle("site.css")} />
+                {this.styles.map(name => {
+                    return <link rel="stylesheet" href={settings.resourceURL.withScript(name)} />
+                })}
+                <style>{typeStyle.getStyles()}</style>
+            </head>
+            <body class={stylesheet.body}>
+                {header}
+                <div class={stylesheet.wrapper}>
+                {when(!!this.aside, () =>
+                    <section id="aside" class={stylesheet.aside}>
+                        {this.aside}
+                    </section>
+                )}
+                <section id="contents" class={stylesheet.contents}>
                     {this.body}
+                </section>
                 </div>
+
+                <footer class={stylesheet.footer}>
+                    footer text here
+                </footer>
             </body>
             {this.scripts.map(name => {
                 return <script src={settings.resourceURL.withScript(name)}></script>
@@ -63,3 +216,4 @@ export class DefaultLayout implements Types.Layout {
 }
 
 export default DefaultLayout;
+
