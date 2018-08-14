@@ -6,6 +6,7 @@ import express from "express";
 import bodyParser from "body-parser";
 import {escape, allowStr, filterStr, SafeStr} from './lib/safestr';
 import * as elements from 'typed-html';
+import fg from "fast-glob";
 
 export * from "./lib/types";
 export * from "./lib/settings";
@@ -85,4 +86,24 @@ export function includePageScript(level=1): string {
 export function includePageStyle(level=1): string {
     let moduleName = callsite()[level].getFileName();
     return includePageAsset(moduleName, ".css", settings.staticURL.styles);
+}
+
+export function importPageRouters(server: express.Express) {
+    let files = fg.sync([
+        path.join(__dirname, "pages", "*.js"),
+        path.join(__dirname, "pages", "*", "index.js")
+    ]);
+    for (let file of files) {
+        let name = path.basename(file.toString(), ".js");
+        if (name == "index") {
+            name = path.basename(path.dirname(file.toString()));
+        }
+        let mountpath = `/${name}`;
+        let router = require(file.toString()).router;
+        if (router) {
+            console.log(`mounting router on ${mountpath} from ${file}`);
+            server.use(mountpath, router);
+        }
+    }
+
 }

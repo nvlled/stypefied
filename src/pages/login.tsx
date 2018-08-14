@@ -74,9 +74,10 @@ router.post("/", createBodyParser(), (request: Types.Request, response: Types.Re
     } else {
         viewData.formMsg = allowStr("login successful");
         request.session.username = username;
+        response.redirect("/");
     }
 
     response.send(view(viewData));
 });
 
-export default router;
+export {router};

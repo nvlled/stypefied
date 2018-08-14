@@ -1,16 +1,15 @@
 
-import view from "./view";
 import {
     createRouter,
     allowStr,
-    Types
-} from "../../lib";
+    Types,
+} from "../lib";
+
 const router = createRouter();
 
 router.get("/", (request: Types.Request, response: Types.Response) => {
-    response.send(view({
-        username: allowStr("aaa"),
-    }));
+    request.session.username = null;
+    response.redirect("/");
 });
 
 export {router};
