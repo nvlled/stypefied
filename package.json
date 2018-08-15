@@ -4,13 +4,13 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "babel": "babel es-src -d dist",
+    "babel": "babel es-src --ignore '*.client.js,client/*.js' -d dist",
     "watch-tsc": "tsc -w --preserveWatchOutput",
     "watch-roll": "rollup -c -w",
-    "watch-babel": "babel es-src -d dist -w",
+    "watch-babel": "babel es-src --watch --skip-initial-build --ignore '*.client.js,client/*.js' -d dist",
     "watch-build": "concurrently -c bgBlue,bgGreen,bgYellow npm:watch-tsc npm:watch-roll npm:watch-babel",
-    "watch-server": "node-dev --no-notify dist/server",
-    "watch": "concurrently -c bgBlue,bgGreen,bgYellow,white npm:watch-tsc npm:watch-roll npm:watch-babel npm:watch-server",
+    "watch-server": "nodemon --watch dist --exec 'node --inspect dist/server' ",
+    "watch": "npm run build; concurrently -c bgBlue,bgGreen,bgYellow,white npm:watch-tsc npm:watch-roll npm:watch-babel npm:watch-server",
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "tsc && rollup -c && npm run babel",
     "clean": "rm -rf resources/ es-src/ dist/ && echo 'its clean again'"
