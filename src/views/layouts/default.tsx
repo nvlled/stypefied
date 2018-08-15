@@ -72,6 +72,7 @@ const stylesheet = (() => {
             ...horizontal,
         },
         contents: {
+            padding: "10px",
             backgroundColor: '#fdfdfd',
             ...flex,
         },
