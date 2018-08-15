@@ -34,7 +34,7 @@ const connection = connect();
 
 export function connect(args: connect_args = {}): Promise<typeorm.Connection> {
     let {type=defaults.DB_TYPE, logging=false, synchronize=true} = args || {};
-    let entities = [ User ];
+    let entities = [ joinPath(__dirname, "models", "*.js") ];
     let config = configs[type];
 
     if (!config) {
