@@ -7,6 +7,7 @@ import bodyParser from "body-parser";
 import {escape, allowStr, filterStr, SafeStr} from './lib/safestr';
 import * as elements from 'typed-html';
 import fg from "fast-glob";
+import {validate, ValidatorOptions} from "class-validator";
 
 export * from "./lib/types";
 export * from "./lib/settings";
@@ -113,4 +114,13 @@ export function importPageRouters(server: express.Express) {
         }
     }
 
+}
+
+export async function validateModel(object: Object, validatorOptions?: ValidatorOptions): Promise<string[]> {
+    let errors = await validate(object, validatorOptions);
+    let errorMessages: string[] = [];
+    for (let err of errors) {
+        errorMessages = errorMessages.concat(util.objectValues(err.constraints));
+    }
+    return errorMessages;
 }

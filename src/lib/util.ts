@@ -30,3 +30,7 @@ export function when(cond: boolean, body: () => any, alt: () => any = null): any
         return alt();
     return null;
 }
+
+export function objectValues(obj: any) {
+    return Object.keys(obj).map(k => obj[k]);
+}
