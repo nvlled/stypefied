@@ -33,6 +33,12 @@ const stylesheet = (() => {
                 a: {
                     color: '#0af',
                 },
+                ul: {
+                    color: "red",
+                    padding: "0",
+                    margin: "5px",
+
+                }
             },
         },
         aside: {

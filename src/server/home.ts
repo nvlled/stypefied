@@ -9,9 +9,7 @@ import {
 const router = createRouter();
 
 router.get("/", (request: Types.Request, response: Types.Response) => {
-    response.send(view({
-        username: allowStr("aaa"),
-    }));
+    response.send(view({}));
 });
 
 export default router;
