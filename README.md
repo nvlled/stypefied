@@ -6,21 +6,17 @@ Well, it's not much of a framework now. It's more like an opinionated project te
 ## Getting started
 1. Clone or download this repository (sitename replace with your preferred name)
 ```
-git clone git@github.com:nvlled/stypefied.git sitename
+git clone https://github.com/nvlled/stypefied.git sitename
 ```
 2. Install dependencies
 ```
 npm install
 ```
-3. Build
-```
-npm run build
-```
-4. Start build pipeline and server
+3. Start build pipeline and server
 ```
 npm run watch
 ```
-5. Open http://localhost:7000, make your changes, etc.
+4. Open http://localhost:7000, make your changes, etc.
 
 ## Structure and organization
 The Project is flexible enough to support different code organization, such as the traditional MVC (1) or razor-like structure (2) (3).
@@ -50,7 +46,6 @@ src/
     └── layouts
         ├── default.tsx
         └── index.tsx
-
 ```
 
 (1) The files for the home page are scattered in different directories, which is how most MVC are structured. The controller (or router) code is placed in the server directory, the view code in the views directory, and the client code in the client directory.
@@ -63,7 +58,17 @@ Of course, the organization isn't strictly imposed, the files can be placed in a
 
 ## Adding pages
 I don't have scaffolding scripts yet, so for now just use the login or about page for reference.
-Or more simply, copy the file login.tsx to user.tsx, then edit the contents of user.tsx. That's it!
+Or more simply, copy the file src/pages/login.tsx to user.tsx, then edit the contents of user.tsx. That's it!
+
+## Adding models
+Similarly, refer to user.ts in the src/models directory. Place your models in that directory, then load
+a repository using db.getRepository. See TypeORM documentation for more details.
+
+## Main libraries used
+- [Express](https://github.com/expressjs/express)
+- [TypeORM](https://github.com/typeorm/typeorm)
+- [typestyle](https://github.com/typestyle/typestyle)
+- [typed-html](https://github.com/nicojs/typed-html)
 
 ## Issues
 - _It's 2018, where's react, vue, and everything nice?!?_ Well, I mainly started this project so I could do web development the more traditional way: the multi-paged, server-side rendered websites, not the current trend of Single-Page Apps (SPA). I don't have an opinion on which is approach better, I'm just more accustomed to the former and haven't been fully evangelized with the latter.
@@ -72,3 +77,5 @@ Or more simply, copy the file login.tsx to user.tsx, then edit the contents of u
 
 - The build pipeline is a bit of a mess, which consist of tsc, rollup, and then babel. I'm thinking of just using tsc and systemjs.
 
+- Relative imports. I'm still not sure how if there's a better way of doing things like import * as db from "../../db".
+It seems to be a bit of a pain for deeper directories.
