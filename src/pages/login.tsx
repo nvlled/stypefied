@@ -14,7 +14,7 @@ import {
 } from "../lib";
 import * as layouts from "../views/layouts";
 import { when } from "../lib/util";
-import {userRepository} from "../db";
+import {userRepository, getRepository} from "../db";
 import {User} from "../models/user";
 import { QueryFailedError } from "typeorm";
 import { filterStr } from "../lib/safestr";
@@ -132,7 +132,7 @@ let submitLogin = async (request: Types.Request, response: Types.Response) => {
 
 let submitRegister = async (request: Types.Request, response: Types.Response) => {
     let {username, password, password2, action} = request.body;
-    let users = await userRepository();
+    let users = await getRepository(User);
     let viewData: Args = { action, username: filterStr(username) };
 
     [username, password, password2] =

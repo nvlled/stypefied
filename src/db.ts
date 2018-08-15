@@ -46,6 +46,11 @@ export function connect(args: connect_args = {}): Promise<typeorm.Connection> {
     return createConnection(config);
 }
 
+export async function getRepository<Entity>(model: typeorm.ObjectType<Entity> | typeorm.EntitySchema<Entity> | string): Promise<typeorm.Repository<Entity>> {
+    let conn = await connection;
+    return conn.getRepository(model);
+}
+
 export async function userRepository(conn?: typeorm.Connection): Promise<typeorm.Repository<User>> {
     if (!conn)
         conn = await connection;
