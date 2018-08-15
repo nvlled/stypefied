@@ -1,8 +1,11 @@
 
+import "babel-polyfill";
+require('express-async-errors');
 import express from "express";
 import {
     settings, defaults,
     importPageRouters,
+    Types,
 } from "../lib";
 import * as path from "path";
 import {config as dotenvConfig} from "dotenv";
@@ -26,6 +29,8 @@ server.use((req, res, next) => {
     next();
 });
 
+// Serve static assets from static/ and resources/
+// * resources/ contain generated client scripts
 server.use(path.join("/", path.basename(staticDir)),    express.static(staticDir));
 server.use(path.join("/", path.basename(resourceDir)),  express.static(resourceDir));
 
@@ -39,7 +44,14 @@ server.use("/", home);
 // for added type-safety
 importPageRouters(server);
 
+server.use((err: any, req: Types.Request, res: Types.Response, next: express.NextFunction) => {
+    if (err) {
+        res.status(500);
+        res.send(`error: ${err.toString()}`);
+        console.log("error: ", err);
+    }
+});
+
 server.listen(port, () => {
     console.log(`server listening at ${port}`);
 });
-
