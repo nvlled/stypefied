@@ -7,17 +7,20 @@ import {
     includePageStyle,
     includePageScript,
     escape,
+    filterStr,
     allowStr,
     SafeStr,
     Types,
-    validateModel,
+    layouts,
+    db,
+    models,
+    util,
 } from "../lib";
-import * as layouts from "../views/layouts";
-import { when } from "../lib/util";
-import {userRepository, getRepository} from "../db";
-import {User} from "../models/user";
 import { QueryFailedError } from "typeorm";
-import { filterStr } from "../lib/safestr";
+
+const {userRepository, getRepository} = db;
+const {User} = models;
+const {when} = util;
 
 export interface Args {
     username?: SafeStr,
