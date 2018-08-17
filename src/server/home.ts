@@ -5,11 +5,15 @@ import {
     allowStr,
     Types,
 } from "../lib";
+import {Item} from "../models";
+import {getStories} from "../api";
 
 const router = createRouter();
 
-router.get("/", (request: Types.Request, response: Types.Response) => {
-    response.send(view({}));
+router.get("/", async (request: Types.Request, response: Types.Response) => {
+    response.send(view({
+        items: await getStories(),
+    }));
 });
 
 export default router;
