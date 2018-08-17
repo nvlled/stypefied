@@ -157,7 +157,7 @@ let submitRegister = async (request: Types.Request, response: Types.Response) =>
     newUser.username = username;
     newUser.password = password;
 
-    let errors = await validateModel(newUser);
+    let errors = await models.validate(newUser);
     if (errors.length > 0) {
         response.send(view({
             registerError: filterStr(`${errors.join(", ")}`),

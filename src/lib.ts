@@ -114,11 +114,3 @@ export function importPageRouters(server: express.Express) {
 
 }
 
-export async function validateModel(object: Object, validatorOptions?: ValidatorOptions): Promise<string[]> {
-    let errors = await validate(object, validatorOptions);
-    let errorMessages: string[] = [];
-    for (let err of errors) {
-        errorMessages = errorMessages.concat(util.objectValues(err.constraints));
-    }
-    return errorMessages;
-}
