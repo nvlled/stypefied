@@ -1,13 +1,12 @@
 
 import {config as dotenvConfig} from "dotenv";
-import "babel-polyfill";
-import "reflect-metadata";
 import {createConnection, Repository} from "typeorm";
 import typeorm from "typeorm";
 import {User} from "./models/user";
 import {env} from "process";
 import {join as joinPath} from "path";
-import {defaults, settings} from "./lib";
+import defaults from "./lib/defaults";
+import settings from "./lib/settings";
 
 dotenvConfig();
 
@@ -23,7 +22,6 @@ const configs: { [key: string] : typeorm.ConnectionOptions } = {
         password: env.DB_PASS || defaults.DB_PASS,
     },
 }
-
 
 interface connect_args {
     type?: string,

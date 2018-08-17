@@ -2,7 +2,8 @@
 import resolve from 'rollup-plugin-node-resolve';
 import * as path from "path";
 import fg from "fast-glob";
-import {util, settings} from "./es-src/lib";
+import settings from "./es-src/lib/settings";
+import {removePathPrefix} from "./es-src/lib/util";
 
 let srcDir = path.join(__dirname, "es-src");
 let destDir = path.join(__dirname, settings.resourcePath, "scripts");
@@ -23,7 +24,7 @@ let config = findClientScripts().map(function(fullpath) {
     let {basename, dirname, join} = path;
     let filename = basename(fullpath);
 
-    let scriptPath = util.removePathPrefix(
+    let scriptPath = removePathPrefix(
         dirname(fullpath),
         join(__dirname, "es-src")
     );

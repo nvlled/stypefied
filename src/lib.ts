@@ -1,20 +1,30 @@
 
 import * as path from "path";
-import {settings} from "./lib/settings";
 import * as util from "./lib/util";
 import express from "express";
 import bodyParser from "body-parser";
-import {escape, allowStr, filterStr, SafeStr} from './lib/safestr';
 import * as elements from 'typed-html';
 import fg from "fast-glob";
-import {validate, ValidatorOptions} from "class-validator";
+import * as layouts from "./views/layouts";
+import * as db from "./db";
+import * as models from "./models";
+import * as urlfor from "./lib/urlfor";
+import settings from "./lib/settings";
+import defaults from "./lib/defaults";
 
 export * from "./lib/types";
-export * from "./lib/settings";
 export * from './lib/safestr';
-export {util};
-export {elements};
 export {createTypeStyle} from "typestyle";
+export {
+    db,
+    util,
+    urlfor,
+    models,
+    layouts,
+    elements,
+    settings,
+    defaults,
+};
 
 export const createRouter = () => express.Router();
 export const createBodyParser = () => bodyParser.urlencoded({ extended: false });
@@ -42,18 +52,6 @@ export const context = {
         }
         return [];
     },
-}
-
-export const defaults = {
-    DB_TYPE: "sqlite",
-    DB_NAME: "data.db",
-    DB_HOST: "localhost",
-    DB_PORT: "3303",
-    DB_USER: "root",
-    DB_PASS: "",
-
-    SESSION_NAME: "stypefied",
-    SESSION_KEY: "yourkeyhere",
 }
 
 // To avoid future bewilderment, I should

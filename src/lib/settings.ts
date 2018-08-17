@@ -7,7 +7,7 @@ const resourceDir  = path.join(__dirname, "..", "..",  resourcePath);
 const staticDir    = path.join(__dirname, "..",  "..", staticPath);
 const srcDir       = path.join(__dirname, "..",  "..", "src");
 
-export const settings = {
+export default {
     sitename: "Typed CRUD",
     resourcePath,
     staticPath,
