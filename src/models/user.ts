@@ -1,11 +1,12 @@
 import {
     Entity, PrimaryGeneratedColumn,
-    PrimaryColumn, Column, CreateDateColumn
+    PrimaryColumn, Column, CreateDateColumn, OneToMany
 } from "typeorm";
 import {
     validate, Contains, IsInt, MinLength,
     IsEmail, IsFQDN, IsDate, Min, Max,
 } from "class-validator";
+import {Item} from "./item";
 
 
 @Entity()
@@ -38,4 +39,15 @@ export class User {
 
     @Column("text")
     description: string = "";
+
+    @OneToMany(type => Item, item => item.user)
+    items: Item[]
+
+    getComments(): Item[] {
+        return this.items.filter(item => item.itemType == "comment");
+    }
+
+    getSubmissions(): Item[] {
+        return this.items.filter(item => item.itemType == "story");
+    }
 }
