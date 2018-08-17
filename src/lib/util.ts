@@ -1,4 +1,6 @@
 import * as path from "path";
+import {URL} from "url";
+import moment from "moment";
 
 // removePathPrefix("/a/b/c", "/a") == "/b/c"
 // removePathPrefix("/a/b/c", "/a/") == "/b/c"
@@ -34,3 +36,19 @@ export function when(cond: boolean, body: () => any, alt: () => any = null): any
 export function objectValues(obj: any) {
     return Object.keys(obj).map(k => obj[k]);
 }
+
+export function getUrlHost(url: string): string {
+    try {
+        return new URL(url).hostname;
+    } catch (e) {
+        return "";
+    }
+}
+
+export function getTimeFromNow(datetime: string): string {
+    let m = moment(datetime);
+    if ( ! m.isValid())
+        return "";
+    return m.fromNow();
+}
+
