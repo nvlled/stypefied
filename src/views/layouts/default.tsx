@@ -149,7 +149,7 @@ export class DefaultLayout implements Types.Layout {
             {text: "new", href: "/new"},
             {text: "threads", href: "/threads"},
             {text: "comments", href: "/comments"},
-            {text: "submit", href: "/submit"},
+            {text: "submit", href: "/new-submission"},
         ];
 
         let {when} = util;
