@@ -42,6 +42,7 @@
     "request-local": "^1.0.5",
     "sanitize-html": "^1.18.2",
     "sqlite3": "^4.0.2",
+    "touch": "^3.1.0",
     "typed-html": "^0.6.0",
     "typeorm": "^0.2.7",
     "typestyle": "^2.0.1"

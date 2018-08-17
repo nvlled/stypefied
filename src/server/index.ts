@@ -1,5 +1,6 @@
 
 import "babel-polyfill";
+import "reflect-metadata";
 require('express-async-errors');
 import express from "express";
 import {
@@ -53,5 +54,7 @@ server.use((err: any, req: Types.Request, res: Types.Response, next: express.Nex
 });
 
 server.listen(port, () => {
+    const touch = require("touch");
+    touch.sync(".server-reload");
     console.log(`server listening at ${port}`);
 });
