@@ -35,6 +35,9 @@ export async function getStories({pageNo=0, pageSize=20} = {}): Promise<Item[]> 
         order: {
             dateUpdated: "DESC",
         },
+        where: {
+            itemType: "story",
+        },
         skip: pageNo * pageSize,
         take: pageSize,
         cache: true

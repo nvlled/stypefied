@@ -1,5 +1,4 @@
 
-
 import {
     elements,
     createTypeStyle,
@@ -43,8 +42,9 @@ export default function f(args: Args): string {
             <li><a href="#">article 3</a></li>
         </ul>
     </div>;
-    layout.body = <div id="home" class={className}>
-        {items.map((item, i) => {
+
+
+    let renderItem = (item: Item, i: number) => {
             let host = getUrlHost(item.url);
             let fromNow = getTimeFromNow(item.dateCreated);
             return <div>
@@ -52,7 +52,7 @@ export default function f(args: Args): string {
                 <span>{item.title}</span>
                 {host && <span>(<a href="#">{host}</a>)</span>}
                 <br />
-                <span>{item.score}</span>
+                <span>{item.score} points</span>
                 <span>by</span>
                 <span>
                     <a href={urlfor.user(item.username)}>
@@ -68,9 +68,12 @@ export default function f(args: Args): string {
                 | <a href={urlfor.item(item.id)}>
                     0 comments
                 </a>
-
+                <br /><br />
             </div>;
-        })}
+    }
+
+    layout.body = <div id="home" class={className}>
+        {items.map(renderItem)}
         <style>{ts.getStyles()}</style>
     </div>;
     return layout.render();
