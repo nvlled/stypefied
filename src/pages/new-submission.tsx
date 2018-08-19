@@ -15,6 +15,7 @@ import {
     db,
     models,
     util,
+    middlewares,
 } from "../lib";
 import { QueryFailedError } from "typeorm";
 import express from "express";
@@ -22,6 +23,7 @@ import express from "express";
 const {getRepository} = db;
 const {Item} = models;
 const {$nest} = util;
+const {requireLogin} = middlewares;
 
 let typeStyle = createTypeStyle();
 let stylesheet = typeStyle.stylesheet({
@@ -86,17 +88,7 @@ export const view = (args: ViewArgs) => {
 
 export const router = createRouter();
 
-router.use(
-    (request: Types.Request,
-     response: Types.Response,
-     next: express.NextFunction) =>
-    {
-        if (!request.session.username) {
-            request.flash("login required");
-            return response.redirect("/login");
-        }
-        next();
-    });
+router.use(requireLogin);
 
 router.get("/", (request: Types.Request, response: Types.Response) => {
     response.send(view({}));
@@ -110,7 +102,7 @@ router.post("/",
         item.title = title;
         item.url = url;
         item.text = text;
-        item.username = text;
+        item.username = request.session.username;
         item.itemType = "story";
 
         let repo = await getRepository(Item);
@@ -128,4 +120,3 @@ router.post("/",
         request.flash("info", "Submitted");
         response.redirect("/");
     });
-

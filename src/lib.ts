@@ -11,6 +11,8 @@ import * as models from "./models";
 import * as urlfor from "./lib/urlfor";
 import settings from "./lib/settings";
 import defaults from "./lib/defaults";
+import * as middlewares from "./middlewares";
+
 
 export * from "./lib/types";
 export * from './lib/safestr';
@@ -24,6 +26,7 @@ export {
     elements,
     settings,
     defaults,
+    middlewares,
 };
 
 export const createRouter = () => express.Router();
@@ -35,11 +38,13 @@ export const context = {
             return require("request-local").data;
         } catch (e) {
             console.warn("unable to load request-local");
-            return {};
+            return null;
         }
     },
     currentUsername() {
         let local = this.require();
+        if (!local)
+            return "";
         let {session} = local.request;
         if (session)
             return session.username;
@@ -47,7 +52,7 @@ export const context = {
     },
     flashMessages(name: string = "info"): string[] {
         let local = this.require();
-        if (local.request) {
+        if (local && local.request) {
             return local.request.flash(name);
         }
         return [];
