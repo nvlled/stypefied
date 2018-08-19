@@ -66,7 +66,7 @@ export class Item {
     @TreeChildren()
     replies: Item[]
 
-    root(): Item {
+    root(): Item | null {
         let item = this.parent;
         if (!item)
             return null;

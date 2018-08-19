@@ -14,6 +14,7 @@
         "emitDecoratorMetadata": true,
         "experimentalDecorators": true,
         "noEmitOnError": true,
+        "strictNullChecks": true,
     },
     "include": [
         "src/**/*"

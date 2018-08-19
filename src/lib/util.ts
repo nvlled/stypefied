@@ -26,7 +26,7 @@ export function removePathPrefix(str: string, prefix: string) {
     return path.join( ...strs.slice(i, strs.length));
 }
 
-export function when(cond: boolean, body: () => any, alt: () => any = null): any {
+export function when(cond: boolean, body: () => any, alt: () => any = ()=>null): any {
     if (cond)
         return body();
     if (typeof alt == "function")
@@ -58,7 +58,7 @@ Record<string, ts.types.NestedCSSProperties>
 {
     if (selectors.length == 0)
         return {};
-    let sel = selectors.pop();
+    let sel: string = selectors.pop() || "";
     selectors.reverse();
     let props = {
         $nest: {

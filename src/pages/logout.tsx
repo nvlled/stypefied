@@ -8,7 +8,7 @@ import {
 const router = createRouter();
 
 router.get("/", (request: Types.Request, response: Types.Response) => {
-    request.session.username = null;
+    request.session.username = "";
     request.flash('info', "Logout'ed");
     response.redirect("/");
 });
