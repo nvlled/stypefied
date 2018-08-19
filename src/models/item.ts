@@ -2,6 +2,7 @@ import {
     Entity, PrimaryGeneratedColumn,
     PrimaryColumn, Column, CreateDateColumn,
     ManyToOne, OneToOne, OneToMany,
+    Tree, TreeParent, TreeChildren, TreeLevelColumn,
 } from "typeorm";
 import {
     validate, Contains, IsInt, MinLength,
@@ -12,7 +13,9 @@ import {User} from "./user";
 
 export type ItemType = "story" | "comment";
 
+
 @Entity()
+@Tree("closure-table")
 export class Item {
     @PrimaryGeneratedColumn()
     id: number;
@@ -56,4 +59,23 @@ export class Item {
 
     @ManyToOne(type => User, user => user.items)
     user: User;
+
+    @TreeParent()
+    parent: Item
+
+    @TreeChildren()
+    replies: Item[]
+
+    root(): Item {
+        let item = this.parent;
+        if (!item)
+            return null;
+
+        while(true) {
+            if (!item.parent)
+                return item;
+            item = item.parent;
+        }
+        return null;
+    }
 }

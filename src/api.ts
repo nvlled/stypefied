@@ -14,7 +14,7 @@ import {
 
 import * as layouts from "./views/layouts";
 import { when } from "./lib/util";
-import {getRepository} from "./db";
+import {getRepository, getTreeRepository} from "./db";
 import {User, Item, validate} from "./models";
 import { QueryFailedError } from "typeorm";
 
@@ -43,4 +43,17 @@ export async function getStories({pageNo=0, pageSize=20} = {}): Promise<Item[]> 
         cache: true
     });
     return stories;
+}
+
+export async function getThread(root: Item): Promise<Item> {
+    const repo = await getTreeRepository(Item);
+    let thread = await repo.findDescendantsTree(root);
+    thread = await repo.findAncestorsTree(root);
+    return thread;
+}
+
+export async function replyThread(parent: Item, reply: Item) {
+    const repo = await getTreeRepository(Item);
+    reply.parent = parent;
+    await repo.save(reply);
 }

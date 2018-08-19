@@ -49,6 +49,12 @@ export async function getRepository<Entity>(model: typeorm.ObjectType<Entity> | 
     return conn.getRepository(model);
 }
 
+export async function getTreeRepository<Entity>(model: typeorm.ObjectType<Entity> | typeorm.EntitySchema<Entity> | string): Promise<typeorm.TreeRepository<Entity>> {
+    let conn = await connection;
+    return conn.getTreeRepository(model);
+}
+
+
 export async function userRepository(conn?: typeorm.Connection): Promise<typeorm.Repository<User>> {
     if (!conn)
         conn = await connection;
