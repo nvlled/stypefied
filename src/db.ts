@@ -28,9 +28,7 @@ interface connect_args {
     synchronize?: boolean,
     logging?:     boolean,
 }
-const connection = connect();
-
-export function connect(args: connect_args = {}): Promise<typeorm.Connection> {
+function connect(args: connect_args = {}): Promise<typeorm.Connection> {
     let {type=defaults.DB_TYPE, logging=false, synchronize=true} = args || {};
     let entities = [ joinPath(__dirname, "models", "*.js") ];
     let config = configs[type];
@@ -60,3 +58,6 @@ export async function userRepository(conn?: typeorm.Connection): Promise<typeorm
         conn = await connection;
     return conn.getRepository(User);
 }
+
+export const connection = connect();
+
