@@ -6,7 +6,7 @@ import {
 import {
     validate, Contains, IsInt, MinLength,
     IsEmail, IsFQDN, IsDate, Min, Max,
-    IsNotEmpty,
+    IsNotEmpty, ValidateIf
 } from "class-validator";
 import {User} from "./user";
 
@@ -41,6 +41,7 @@ export class Item {
     @Column()
     url: string = "";
 
+    @ValidateIf(o => o.itemType == "story")
     @Column({nullable: false})
     @IsNotEmpty({message: "Title is required"})
     title: string = "";
@@ -48,7 +49,9 @@ export class Item {
     @Column("text")
     description: string = "";
 
+    @ValidateIf(o => o.itemType == "comment")
     @Column("text")
+    @IsNotEmpty({message: "Content is required"})
     text: string = "";
 
     @ManyToOne(type => User, user => user.items)
