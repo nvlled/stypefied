@@ -21,23 +21,17 @@ import express from "express";
 
 const {getRepository} = db;
 const {Item} = models;
+const {$nest} = util;
 
 let typeStyle = createTypeStyle();
 let stylesheet = typeStyle.stylesheet({
     newsub: {
-        $nest: {
-            label: {
-                margin: "10px",
-                $nest: {
-                    span: {
-                        verticalAlign: "top",
-                        display: "inline-block",
-                        width: "50px",
-                        textAlign: "center",
-                    }
-                }
-            }
-        }
+        ...$nest(["label", "span"], {
+            verticalAlign: "top",
+            display: "inline-block",
+            width: "50px",
+            textAlign: "center",
+        }),
     }
 });
 

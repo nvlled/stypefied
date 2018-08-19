@@ -1,6 +1,7 @@
 import * as path from "path";
 import {URL} from "url";
 import moment from "moment";
+import ts from "typestyle";
 
 // removePathPrefix("/a/b/c", "/a") == "/b/c"
 // removePathPrefix("/a/b/c", "/a/") == "/b/c"
@@ -52,3 +53,25 @@ export function getTimeFromNow(datetime: string): string {
     return m.fromNow();
 }
 
+export function $nest(selectors: string[], prop: ts.types.NestedCSSProperties):
+Record<string, ts.types.NestedCSSProperties>
+{
+    if (selectors.length == 0)
+        return {};
+    let sel = selectors.pop();
+    selectors.reverse();
+    let props = {
+        $nest: {
+            [sel]: prop,
+        }
+    }
+    for (let sel of selectors) {
+        let props_ = {
+            $nest: {
+                [sel]: props,
+            }
+        }
+        props = props_;
+    }
+    return props;
+}
