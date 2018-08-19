@@ -26,9 +26,9 @@ const stylesheet = (() => {
     } = csstips;
     return typeStyle.stylesheet({
         body: {
+            fontSize: "130%",
+            fontFamily: "Sans-Serif",
             backgroundColor: "#fdfdfdf",
-            ...fillParent,
-            ...vertical,
             $nest: {
                 a: {
                     color: '#0af',
@@ -46,6 +46,7 @@ const stylesheet = (() => {
             color: 'white',
         },
         header: {
+            fontFamily: "Monospace",
             backgroundColor: '#118',
             color: '#fcfcf9',
         },
@@ -85,6 +86,10 @@ const stylesheet = (() => {
         footer: {
             color: "white",
             backgroundColor: '#118',
+        },
+        notice: {
+            backgroundColor: "rgba(50, 150, 60, 0.7)",
+            textAlign: "center",
         },
         mainNav: {
             margin: "0px",
@@ -180,13 +185,6 @@ export class DefaultLayout implements Types.Layout {
 
                 </div>
             </div>
-            <div>
-                {notices.map(msg =>
-                    <div class="notice">
-                    ♫ <span>{msg}</span>
-                    </div>
-                )}
-            </div>
         </header>;
 
         return formatter.render(<html>
@@ -201,6 +199,14 @@ export class DefaultLayout implements Types.Layout {
             </head>
             <body class={stylesheet.body}>
                 {header}
+                <div>
+                    {notices.map(msg =>
+                        <div class={stylesheet.notice}>
+                        ♫ <span>{msg}</span>
+                        </div>
+                    )}
+                </div>
+
                 <div class={stylesheet.wrapper}>
                 {when(!!this.aside, () =>
                     <section id="aside" class={stylesheet.aside}>
