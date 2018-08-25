@@ -8,9 +8,9 @@
     "watch-tsc": "tsc -w --preserveWatchOutput",
     "watch-roll": "rollup -c -w",
     "watch-babel": "babel es-src --watch --skip-initial-build --ignore '*.client.js,client/*.js' -d dist",
-    "watch-build": "concurrently -c bgBlue,bgGreen,bgYellow npm:watch-tsc npm:watch-roll npm:watch-babel",
+    "watch-build": "concurrently -c bgBlue,bgOrange,bgYellow npm:watch-tsc npm:watch-roll npm:watch-babel",
     "watch-server": "nodemon --watch dist --exec 'node --inspect dist/server' ",
-    "watch": "npm run build; concurrently -c bgBlue,bgGreen,bgYellow,white npm:watch-tsc npm:watch-roll npm:watch-babel npm:watch-server",
+    "watch": "npm run build; concurrently -c bgBlue,bgGreen,bgYellow,bgOrange npm:watch-tsc npm:watch-roll npm:watch-babel npm:watch-server",
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "tsc && rollup -c && npm run babel",
     "clean": "rm -rf resources/ es-src/ dist/ && echo 'its clean again'"
@@ -52,6 +52,10 @@
   "devDependencies": {
     "babel-preset-env": "^1.7.0",
     "concurrently": "^3.6.1",
+    "rollup-plugin-babel": "^3.0.7",
+    "rollup-plugin-commonjs": "^9.1.5",
+    "rollup-plugin-json": "^3.0.0",
+    "rollup-plugin-node-globals": "^1.2.1",
     "rollup-plugin-node-resolve": "^3.3.0"
   }
 }

@@ -1,5 +1,8 @@
 
+import commonjs from 'rollup-plugin-commonjs';
 import resolve from 'rollup-plugin-node-resolve';
+import json from 'rollup-plugin-json';
+import globals from 'rollup-plugin-node-globals';
 import * as path from "path";
 import fg from "fast-glob";
 import settings from "./es-src/lib/settings";
@@ -17,7 +20,12 @@ function findClientScripts() {
     ]);
 }
 
-let plugins = [ resolve() ];
+let plugins = [
+    resolve({ jsnext: true, preferBuiltins: true, browser: true }),
+    json(),
+    commonjs({}),
+    globals(),
+];
 
 let destFilenames = {};
 let config = findClientScripts().map(function(fullpath) {
