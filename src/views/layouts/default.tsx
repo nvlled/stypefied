@@ -75,6 +75,7 @@ const stylesheet = (() => {
             ...csstips.centerCenter,
         },
         wrapper: {
+            minHeight: "90%",
             ...flex,
             ...horizontal,
         },
@@ -86,6 +87,7 @@ const stylesheet = (() => {
         footer: {
             color: "white",
             backgroundColor: '#118',
+            padding: "5px",
         },
         notice: {
             backgroundColor: "rgba(50, 150, 60, 0.7)",
@@ -126,6 +128,7 @@ export class DefaultLayout implements Types.Layout {
     title =   "";
     body  =   "";
     aside =   "";
+    showSearchForm = true;
 
     constructor(includeAssets=true) {
         if (includeAssets) {
@@ -219,7 +222,11 @@ export class DefaultLayout implements Types.Layout {
                 </div>
 
                 <footer class={stylesheet.footer}>
-                    footer text here
+                    {when(this.showSearchForm, () =>
+                        <form action="/search-items">
+                            search: <input name="q" />
+                        </form>
+                    )}
                 </footer>
             </body>
             {this.scripts.map(name => {
