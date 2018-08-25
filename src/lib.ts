@@ -99,23 +99,26 @@ export function includePageStyle(level=1): string {
     return includePageAsset(moduleName, ".css", settings.staticURL.styles);
 }
 
-export function importPageRouters(server: express.Express) {
+export function importRouters(server: express.Express, dir: string, subpath=dir) {
     let files = fg.sync([
-        path.join(__dirname, "pages", "*.js"),
-        path.join(__dirname, "pages", "*", "index.js")
+        path.join(__dirname, dir, "*.js"),
+        path.join(__dirname, dir, "*", "index.js")
     ]);
     for (let file of files) {
         let name = path.basename(file.toString(), ".js");
         if (name == "index") {
             name = path.basename(path.dirname(file.toString()));
         }
-        let mountpath = `/${name}`;
+        let mountpath = path.join("/", subpath, name);
         let router = require(file.toString()).router;
+        let handler = require(file.toString()).handler;
+        if (!router) {
+            router = handler;
+        }
         if (router) {
             console.log(`mounting router on ${mountpath} from ${file}`);
             server.use(mountpath, router);
         }
     }
-
 }
 

@@ -5,7 +5,7 @@ require('express-async-errors');
 import express from "express";
 import {
     settings, defaults,
-    importPageRouters,
+    importRouters,
     Types,
 } from "../lib";
 import * as path from "path";
@@ -36,14 +36,17 @@ server.use(path.join("/", path.basename(staticDir)),    express.static(staticDir
 server.use(path.join("/", path.basename(resourceDir)),  express.static(resourceDir));
 
 //#route imports
-import home  from "./home";
+import home  from "../controllers/home";
 server.use("/", home);
 
 // Use routers on "src/pages"
 // You can also remove this line
 // and manually import them
 // for added type-safety
-importPageRouters(server);
+importRouters(server, "pages", "");
+
+// Add json routers on /api
+importRouters(server, "controllers/json", "api");
 
 server.use((err: any, req: Types.Request, res: Types.Response, next: express.NextFunction) => {
     if (err) {
