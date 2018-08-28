@@ -1,2 +1,2 @@
 
-console.log("login script here");
+alert("login script here");

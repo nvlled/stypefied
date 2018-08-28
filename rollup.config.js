@@ -60,6 +60,5 @@ let config = findClientScripts().map(function(fullpath) {
     }
 });
 console.log("bundle names: " + Object.keys(destFilenames));
-console.log("config: ", config);
 
 export default config;

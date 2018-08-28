@@ -5,9 +5,9 @@
   "main": "index.js",
   "scripts": {
     "watch-tsc": "tsc -w --preserveWatchOutput",
-    "watch-roll": "rollup -c -w",
+    "watch-roll": "sleep 3; rollup -c -w",
     "watch-build": "concurrently -c bgBlue,bgOrange,bgYellow npm:watch-tsc npm:watch-roll",
-    "watch-server": "nodemon --watch dist --exec 'node dist/server' ",
+    "watch-server": "sleep 5; nodemon --watch dist --exec 'node dist/server' ",
     "watch": "npm run build; concurrently -c bgBlue,bgGreen,bgYellow,bgOrange npm:watch-tsc npm:watch-roll npm:watch-server",
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "tsc && rollup -c",

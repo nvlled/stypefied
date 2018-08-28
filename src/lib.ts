@@ -106,12 +106,22 @@ export function importRouters(server: express.Express, dir: string, subpath=dir)
     ]);
     for (let file of files) {
         let name = path.basename(file.toString(), ".js");
+        if (path.extname(name) == ".client") {
+            continue;
+        }
         if (name == "index") {
             name = path.basename(path.dirname(file.toString()));
         }
         let mountpath = path.join("/", subpath, name);
-        let router = require(file.toString()).router;
-        let handler = require(file.toString()).handler;
+        let router, handler;
+        try {
+            router = require(file.toString()).router;
+            handler = require(file.toString()).handler;
+        } catch (e) {
+            console.warn(`unable to mount ${name}: ${e.message}`);
+            continue;
+        }
+
         if (!router) {
             router = handler;
         }
