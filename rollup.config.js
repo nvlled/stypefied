@@ -5,11 +5,12 @@ import json from 'rollup-plugin-json';
 import globals from 'rollup-plugin-node-globals';
 import * as path from "path";
 import fg from "fast-glob";
-import settings from "./es-src/lib/settings";
-import {removePathPrefix} from "./es-src/lib/util";
+const settings = require("./dist/lib/settings").default;
+const util = require("./dist/lib/util");
 
-let srcDir = path.join(__dirname, "es-src");
+let srcDir = path.join(__dirname, "dist");
 let destDir = path.join(__dirname, settings.resourcePath, "scripts");
+let {removePathPrefix} = util;
 
 function findClientScripts() {
     console.log("searching for scripts in " + srcDir);
@@ -34,7 +35,7 @@ let config = findClientScripts().map(function(fullpath) {
 
     let scriptPath = removePathPrefix(
         dirname(fullpath),
-        join(__dirname, "es-src")
+        join(__dirname, "dist")
     );
     if (filename == "client.js") {
         scriptPath = dirname(scriptPath);
@@ -50,6 +51,7 @@ let config = findClientScripts().map(function(fullpath) {
     return {
         input: fullpath,
         output: {
+            exports: "named",
             name: path.join(scriptPath, filename),
             file: path.join(destDir, scriptPath, filename),
             format: 'iife',

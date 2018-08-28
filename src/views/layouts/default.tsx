@@ -9,10 +9,10 @@ import {
     SafeStr,
     util,
     context,
-    createTypeStyle,
 } from "../../lib";
 const formatter = require("html-formatter");
 import * as csstips from "csstips";
+import {createTypeStyle} from "typestyle";
 
 // I guess one disadvantage of typestyle
 // is that I have to restart the server
