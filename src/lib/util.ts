@@ -26,7 +26,7 @@ export function removePathPrefix(str: string, prefix: string) {
     return path.join( ...strs.slice(i, strs.length));
 }
 
-export function when(cond: boolean, body: () => any, alt: () => any = ()=>null): any {
+export function when<T>(cond: boolean, body: () => T|null, alt?: () => T|null): T|null {
     if (cond)
         return body();
     if (typeof alt == "function")
