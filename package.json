@@ -21,7 +21,6 @@
     "@types/express": "^4.16.0",
     "@types/jquery": "^3.3.4",
     "axios": "^0.18.0",
-    "babel-polyfill": "^6.26.0",
     "body-parser": "^1.18.3",
     "callsite": "^1.0.0",
     "class-validator": "^0.9.1",
@@ -48,9 +47,7 @@
     "typestyle": "^2.0.1"
   },
   "devDependencies": {
-    "babel-preset-env": "^1.7.0",
     "concurrently": "^3.6.1",
-    "rollup-plugin-babel": "^3.0.7",
     "rollup-plugin-commonjs": "^9.1.5",
     "rollup-plugin-json": "^3.0.0",
     "rollup-plugin-node-globals": "^1.2.1",

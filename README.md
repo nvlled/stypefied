@@ -75,7 +75,5 @@ a repository using db.getRepository. See TypeORM documentation for more details.
 
 - typed-html, although safe from type errors, is quite prone to xss. Values must be manually sanitized, which is a lot like vanilla php. Not really much of a problem, typed-html could easily be replaced with other templating libraries.
 
-- The build pipeline is a bit of a mess, which consist of tsc, rollup, and then babel. I'm thinking of just using tsc and systemjs.
-
 - Relative imports. I'm still not sure how if there's a better way of doing things like import * as db from "../../db".
 It seems to be a bit of a pain for deeper directories.

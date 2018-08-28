@@ -1,5 +1,4 @@
 
-import "babel-polyfill";
 import "reflect-metadata";
 require('express-async-errors');
 import express from "express";
