@@ -14,7 +14,11 @@
         "emitDecoratorMetadata": true,
         "experimentalDecorators": true,
         "noEmitOnError": true,
-        "strictNullChecks": true
+        "strictNullChecks": true,
+        "lib": [
+            "es2017",
+            "dom",
+        ]
     },
     "include": [
         "src/**/*"

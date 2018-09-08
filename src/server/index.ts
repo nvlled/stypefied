@@ -1,17 +1,18 @@
 
-import "reflect-metadata";
 require('express-async-errors');
+import "reflect-metadata";
 import express from "express";
-import {
-    settings, defaults,
-    importRouters,
-    Types,
-} from "../lib";
 import * as path from "path";
 import {config as dotenvConfig} from "dotenv";
 import {env} from "process";
-const flash = require("connect-flash");
+import {siteMap, RouteInfo, getParentId} from "../sitemap";
+import {
+    settings, defaults,
+    importRoutes,
+    Types,
+} from "../lib";
 
+const flash = require("connect-flash");
 const {resourceDir, staticDir} = settings.fs;
 const server = express();
 const port = 7000;
@@ -34,19 +35,37 @@ server.use((req, res, next) => {
 server.use(path.join("/", path.basename(staticDir)),    express.static(staticDir));
 server.use(path.join("/", path.basename(resourceDir)),  express.static(resourceDir));
 
-//#route imports
-import home  from "../controllers/home";
-server.use("/", home);
+let registerRoute = (router: express.Router, routeInfo: RouteInfo) => {
+    server.use(routeInfo.url, router);
+    if (routeInfo.id) {
+        routeInfo.parentId = getParentId(routeInfo);
+        siteMap.register(routeInfo);
+    } else {
+        console.log(`* ${routeInfo.url} has no exported id`);
+    }
+}
 
-// Use routers on "src/pages"
-// You can also remove this line
-// and manually import them
-// for added type-safety
-importRouters(server, "pages", "");
+// Manually import routes from src/controllers
+import * as home  from "../controllers/home";
+registerRoute(home.router,  home.routeInfo);
 
-// Add json routers on /api
-importRouters(server, "controllers/json", "api");
+// Automatically import routes from src/pages and contollers/json
+const pages = importRoutes("pages", "");
+const apis = importRoutes("controllers/json", "api");
 
+for (let [router, routeInfo] of pages.concat(apis)) {
+    console.log(`mounting ${routeInfo.url} from ${routeInfo.filename}`);
+    registerRoute(router, routeInfo);
+}
+// Note:
+// Modules from src/controllers and src/pages exports the following:
+// (1) router:    express.Router
+//  or handler:   express.Handler
+// (2) routeInfo: sitemap.RouteInfo  (optional)
+
+
+
+// Error handler
 server.use((err: any, req: Types.Request, res: Types.Response, next: express.NextFunction) => {
     if (err) {
         res.status(500);

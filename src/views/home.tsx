@@ -13,6 +13,7 @@ import {
 } from "../lib";
 import * as layouts from "./layouts";
 import {Item} from "../models";
+import {siteMap} from "../sitemap";
 
 const {when, getUrlHost, getTimeFromNow} = util;
 
@@ -36,10 +37,11 @@ export default function f(args: Args): string {
     } = args;
 
     layout.aside = <div>
+        <div><a href={siteMap.urlfor("posts")}>Posts</a></div>
         <ul>
-            <li><a href="#">article 1</a></li>
-            <li><a href="#">article 2</a></li>
-            <li><a href="#">article 3</a></li>
+        {siteMap.children("posts").map(page => {
+            return <li><a href={page.url}>{page.title}</a></li>
+        })}
         </ul>
     </div>;
 

@@ -12,6 +12,7 @@ import * as urlfor from "./lib/urlfor";
 import settings from "./lib/settings";
 import defaults from "./lib/defaults";
 import * as middlewares from "./middlewares";
+import {RouteInfo} from "./sitemap";
 
 
 export * from "./lib/types";
@@ -99,36 +100,55 @@ export function includePageStyle(level=1): string {
     return includePageAsset(moduleName, ".css", settings.staticURL.styles);
 }
 
-export function importRouters(server: express.Express, dir: string, subpath=dir) {
+export function importRoutes(dir: string, subpath=dir): [express.Router, RouteInfo][] {
     let files = fg.sync([
-        path.join(__dirname, dir, "*.js"),
-        path.join(__dirname, dir, "*", "index.js")
+        path.join(__dirname, dir, "**", "*.js"),
     ]);
+    let result: [express.Router, RouteInfo][] = [];
     for (let file of files) {
         let name = path.basename(file.toString(), ".js");
-        if (path.extname(name) == ".client") {
+        let dirname = path.resolve(path.dirname(file.toString()));
+        dirname = util.removePathPrefix(dirname, path.join(__dirname, dir));
+
+        // *.client.js and client.js will be ignored
+        if (path.extname(name) == ".client" || name == "client") {
             continue;
         }
+
         if (name == "index") {
-            name = path.basename(path.dirname(file.toString()));
+            name = "."; // dirname will be used as the name instead
         }
-        let mountpath = path.join("/", subpath, name);
-        let router, handler;
+
+        let mountpath = path.join("/", subpath, dirname, name);
+        let mod = null;
+
         try {
-            router = require(file.toString()).router;
-            handler = require(file.toString()).handler;
+            mod = require(file.toString());
         } catch (e) {
             console.warn(`unable to mount ${name}: ${e.message}`);
             continue;
         }
 
+        let {
+            routeInfo={},
+            router,
+            handler,
+        } = mod;
+
         if (!router) {
             router = handler;
         }
         if (router) {
-            console.log(`mounting router on ${mountpath} from ${file}`);
-            server.use(mountpath, router);
+            result.push([
+                router,
+                {
+                    ...routeInfo,
+                    filename: file,
+                    url: mountpath,
+                }
+            ]);
         }
     }
+    return result;
 }
 
