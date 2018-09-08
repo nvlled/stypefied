@@ -172,6 +172,11 @@ let submitRegister = async (request: Types.Request, response: Types.Response) =>
 
     try {
         await users.save(newUser);
+        viewData.action = "";
+        viewData.formMsg = escape`
+        user created: id=${newUser.id+""},
+            dateCreated=$${newUser.dateCreated}
+        `;
     } catch (e) {
         let userConstraint = !!e.message.match(/SQLITE_CONSTRAINT.*username/i);
         if (e instanceof QueryFailedError && userConstraint) {
@@ -181,11 +186,6 @@ let submitRegister = async (request: Types.Request, response: Types.Response) =>
         }
     }
 
-    viewData.action = "";
-    viewData.formMsg = escape`
-        user created: id=${newUser.id+""},
-        dateCreated=$${newUser.dateCreated}
-    `;
     response.send(view(viewData));
 }
 export {router};
